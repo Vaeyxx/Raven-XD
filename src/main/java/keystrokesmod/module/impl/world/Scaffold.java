@@ -440,8 +440,7 @@ public class Scaffold extends IAutoClicker {
         if (keepYPosition() && !down) {
             startPos = Math.floor(mc.thePlayer.posY);
             down = true;
-        }
-        else if (!keepYPosition()) {
+        } else if (!keepYPosition()) {
             down = false;
             placedUp = false;
         }
@@ -467,8 +466,7 @@ public class Scaffold extends IAutoClicker {
                 original++;
                 add++;
             }
-        }
-        else if (sprint.getInput() == 4 || sprint.getInput() == 5) {
+        } else if (sprint.getInput() == 4 || sprint.getInput() == 5) {
             if (groundDistance() > 0 && mc.thePlayer.posY >= Math.floor(mc.thePlayer.posY) && mc.thePlayer.fallDistance > 0 && ((!placedUp || isDiagonal()) || sprint.getInput() == 4)) {
                 original++;
             }
@@ -485,16 +483,17 @@ public class Scaffold extends IAutoClicker {
         if (lastSlot == -1) {
             lastSlot = SlotHandler.getCurrentSlot();
         }
+        int slot = SlotHandler.getCurrentSlot();
         if ((useBiggestStack.isToggled() && autoSwap.isToggled())
                 || SlotHandler.getHeldItem() == null
                 || !(SlotHandler.getHeldItem().getItem() instanceof ItemBlock)
                 || !ContainerUtils.canBePlaced((ItemBlock) SlotHandler.getHeldItem().getItem())) {
-            int slot = getSlot();
-            if (slot == -1) {
-                return;
-            }
-            SlotHandler.setCurrentSlot(slot);
+            slot = getSlot();
         }
+        if (slot == -1) {
+            return;
+        }
+        SlotHandler.setCurrentSlot(slot);
         if (SlotHandler.getHeldItem() == null || !(SlotHandler.getHeldItem().getItem() instanceof ItemBlock))
             return;
         MovingObjectPosition rayCasted = null;
@@ -725,7 +724,7 @@ public class Scaffold extends IAutoClicker {
         return this.isEnabled() && placeBlock != null;
     }
 
-    private boolean isDiagonal() {
+    public static boolean isDiagonal() {
         float yaw = ((mc.thePlayer.rotationYaw % 360) + 360) % 360 > 180 ? ((mc.thePlayer.rotationYaw % 360) + 360) % 360 - 360 : ((mc.thePlayer.rotationYaw % 360) + 360) % 360;
         return (yaw >= -170 && yaw <= 170) && !(yaw >= -10 && yaw <= 10) && !(yaw >= 80 && yaw <= 100) && !(yaw >= -100 && yaw <= -80) || Keyboard.isKeyDown(mc.gameSettings.keyBindLeft.getKeyCode()) || Keyboard.isKeyDown(mc.gameSettings.keyBindRight.getKeyCode());
     }

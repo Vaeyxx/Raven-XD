@@ -246,7 +246,9 @@ public class Utils {
         } else {
             if (attack || HitSelect.canSwing()) mc.thePlayer.sendQueue.addToSendQueue(new C0APacketAnimation());
         }
-        if (attack) mc.playerController.attackEntity(mc.thePlayer, e);
+        if (attack) {
+            mc.playerController.attackEntity(mc.thePlayer, e);
+        }
     }
 
     public static void attackEntityNoSwing(Entity e) {
@@ -356,7 +358,7 @@ public class Utils {
         return txt.replaceAll("&", "§");
     }
 
-    public static void correctValue(SliderSetting c, SliderSetting d) {
+    public static void correctValue(@NotNull SliderSetting c, @NotNull SliderSetting d) {
         if (c.getInput() > d.getInput()) {
             double p = c.getInput();
             c.setValue(d.getInput());

@@ -1,6 +1,5 @@
 package keystrokesmod.module;
 
-import keystrokesmod.Raven;
 import keystrokesmod.module.impl.client.*;
 import keystrokesmod.module.impl.combat.*;
 import keystrokesmod.module.impl.exploit.*;
@@ -124,6 +123,9 @@ public class ModuleManager {
     public static ClientTheme clientTheme;
     public static ScaffoldHelper scaffoldHelper;
     public static AutoChest autoChest;
+    public static SilenceIRC silenceIRC;
+    public static Teleport teleport;
+    public static AntiFalseFlag antiFalseFlag;
 
     public void register() {
 
@@ -200,6 +202,7 @@ public class ModuleManager {
         this.addModule(jesus = new Jesus());
         this.addModule(noWeb = new NoWeb());
         this.addModule(new SaveMoveKeys());
+        this.addModule(teleport = new Teleport());
 
         // other
         this.addModule(new Anticheat());
@@ -219,6 +222,7 @@ public class ModuleManager {
         this.addModule(autoRegister = new AutoRegister());
         this.addModule(viewPackets = new ViewPackets());
         this.addModule(new FlagDetector());
+        this.addModule(silenceIRC = new SilenceIRC());
 
         // player
         this.addModule(new AntiAFK());
@@ -303,6 +307,7 @@ public class ModuleManager {
         this.addModule(pingSpoof = new PingSpoof());
         this.addModule(exploitFixer = new ExploitFixer());
         this.addModule(ghostBlock = new GhostBlock());
+        this.addModule(antiFalseFlag = new AntiFalseFlag());
 
         // enable
         antiBot.enable();
@@ -342,10 +347,9 @@ public class ModuleManager {
     }
 
     private static double getWidth(@NotNull Module module) {
-        return HUD.getFontRenderer().width(
-                module.getPrettyName()
-                        + ((HUD.showInfo.isToggled() && !module.getPrettyInfo().isEmpty()) ? " " + module.getPrettyInfo() : "")
-        );
+        String text = module.getPrettyName()
+                + ((HUD.showInfo.isToggled() && !module.getPrettyInfo().isEmpty()) ? " " + module.getPrettyInfo() : "");
+        return HUD.getFontRenderer().width(HUD.lowercase.isToggled() ? text.toLowerCase() : text);
     }
 
     public static void sort() {

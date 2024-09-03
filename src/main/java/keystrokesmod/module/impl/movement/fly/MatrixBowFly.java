@@ -1,21 +1,18 @@
 package keystrokesmod.module.impl.movement.fly;
 
-import keystrokesmod.event.MoveEvent;
-import keystrokesmod.event.PreVelocityEvent;
-import keystrokesmod.event.ReceivePacketEvent;
-import keystrokesmod.event.RotationEvent;
+import keystrokesmod.event.*;
 import keystrokesmod.module.impl.movement.Fly;
-import keystrokesmod.module.impl.other.RotationHandler;
 import keystrokesmod.module.impl.other.SlotHandler;
 import keystrokesmod.module.setting.impl.SubMode;
 import keystrokesmod.utility.ContainerUtils;
 import keystrokesmod.utility.MoveUtil;
+import keystrokesmod.utility.Utils;
 import net.minecraft.item.ItemBow;
-import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class MatrixBowFly extends SubMode<Fly> {
+    private int ticksSinceVelocity = 999;
     private float yaw;
 
     public MatrixBowFly(String name, @NotNull Fly parent) {
@@ -24,33 +21,34 @@ public class MatrixBowFly extends SubMode<Fly> {
 
     @SubscribeEvent
     public void onRotation(@NotNull RotationEvent event) {
-        event.setPitch(-85);
-        event.setYaw(yaw + 180);
+        event.setPitch(-89);
+        event.setYaw(yaw);
+    }
+
+    @Override
+    public void onEnable() throws Exception {
+        yaw = mc.thePlayer.rotationYaw;
     }
 
     @Override
     public void onUpdate() {
         SlotHandler.setCurrentSlot(ContainerUtils.getSlot(ItemBow.class));
+        ticksSinceVelocity++;
     }
 
     @SubscribeEvent
     public void onPreVelocity(@NotNull PreVelocityEvent event) {
-        event.setCanceled(true);
-        yaw = mc.thePlayer.rotationYaw;  // because we have set the rotation yaw on RotationEvent.
-        mc.thePlayer.motionY = Math.abs(event.getMotionY() / 8000);
+        ticksSinceVelocity = 0;
+        mc.thePlayer.motionY = Math.abs(event.getMotionY() / 8000.0);
         MoveUtil.strafe(Math.hypot(event.getMotionX() / 8000.0, event.getMotionZ() / 8000.0));
+        yaw = mc.thePlayer.rotationYaw;
+        event.setCanceled(true);
     }
 
     @SubscribeEvent
     public void onMove(@NotNull MoveEvent event) {
-        if (mc.thePlayer.hurtTime == 0) {
+        if (ticksSinceVelocity >= 6) {
             event.setCanceled(true);
-            mc.thePlayer.motionY = 0;
         }
-    }
-
-    @Override
-    public void onEnable() {
-        yaw = RotationHandler.getRotationYaw();
     }
 }
