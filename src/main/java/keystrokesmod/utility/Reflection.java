@@ -15,6 +15,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.inventory.*;
+import net.minecraft.network.play.client.C01PacketChatMessage;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
@@ -52,6 +53,7 @@ public class Reflection {
     public static Field itemInUseCount;
     public static Field S08PacketPlayerPosLookYaw;
     public static Field S08PacketPlayerPosLookPitch;
+    public static Field C01PacketChatMessageMessage;
     public static Field C02PacketUseEntityEntityId;
     public static Field C03PacketPlayerOnGround;
     public static Field S12PacketEntityVelocityXMotion;
@@ -94,7 +96,6 @@ public class Reflection {
             }
 
             rightClickDelayTimerField = ReflectionHelper.findField(Minecraft.class, "field_71467_ac", "rightClickDelayTimer");
-
             if (rightClickDelayTimerField != null) {
                 rightClickDelayTimerField.setAccessible(true);
             }
@@ -142,6 +143,11 @@ public class Reflection {
             S08PacketPlayerPosLookPitch = ReflectionHelper.findField(S08PacketPlayerPosLook.class, "field_148937_e", "pitch");
             if (S08PacketPlayerPosLookPitch != null) {
                 S08PacketPlayerPosLookPitch.setAccessible(true);
+            }
+
+            C01PacketChatMessageMessage = ReflectionHelper.findField(C01PacketChatMessage.class, "field_149440_a", "message");
+            if (C01PacketChatMessageMessage != null) {
+                C01PacketChatMessageMessage.setAccessible(true);
             }
 
             C02PacketUseEntityEntityId = ReflectionHelper.findField(C02PacketUseEntity.class, "entityId", "field_149567_a");

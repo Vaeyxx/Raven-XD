@@ -211,6 +211,7 @@ public class ModuleManager {
         this.addModule(new Anticheat());
         this.addModule(autoPlay = new AutoPlay());
         this.addModule(autoRespawn = new AutoRespawn());
+        this.addModule(new ChatBypass());
         this.addModule(clickRecorder = new ClickRecorder());
         this.addModule(new FakeChat());
         this.addModule(new LatencyAlerts());

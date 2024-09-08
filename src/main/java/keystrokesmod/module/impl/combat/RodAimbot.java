@@ -69,6 +69,9 @@ public class RodAimbot extends Module {
                 return;
             }
             float[] rotations = RotationUtils.getRotationsPredicated(target, (int) predicatedTicks.getInput());
+            if (rotations == null) {
+                return;
+            }
             event.setYaw(rotations[0]);
             event.setPitch(rotations[1]);
             if (lookTicks > 0) {
