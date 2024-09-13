@@ -66,7 +66,7 @@ public class AutoWeapon extends Module {
 
         if (hoverDelay.getInput() == 0 || ticksHovered > hoverDelay.getInput()) {
             int slot = Utils.getWeapon();
-            if (slot != -1) {
+            if (slot > 0 && slot < 9) {
                 if (previousSlot == -1) {
                     previousSlot = SlotHandler.getCurrentSlot();
                 }
