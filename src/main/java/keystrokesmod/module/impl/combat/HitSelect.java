@@ -32,7 +32,7 @@ public class HitSelect extends Module {
                 "Move speed: Keep sprint but legitimate\n" +
                         "KB reduction: KnockBack reduction\n" +
                         "Critical hits: Critical hit frequency"));
-        this.registerSetting(delay = new SliderSetting("Delay", 420, 300, 500, 1));
+        this.registerSetting(delay = new SliderSetting("Delay", 300, 0, 500, 1));
         this.registerSetting(chance = new SliderSetting("Chance", 80, 0, 100, 1));
     }
 
